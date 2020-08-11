@@ -15,9 +15,10 @@ router.post(
     ],
     async (req, res) => {
         try {
+            console.log('body ', req.body);
             const errors = validationResult(req);
 
-            if (errors.isEmpty()) {
+            if (!errors.isEmpty()) {
                 return res.status(400).json({
                     errors: errors.array(),
                     message: 'Wrong data when trying to sign in'
@@ -53,7 +54,7 @@ router.post(
         try {
             const errors = validationResult(req);
 
-            if (errors.isEmpty()) {
+            if (!errors.isEmpty()) {
                 return res.status(400).json({
                     errors: errors.array(),
                     message: 'Wrong data when trying to log in'

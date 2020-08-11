@@ -1,13 +1,36 @@
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
+import {useHttp} from "../hooks/http.hook";
+import {useMessage} from "../hooks/message.hook";
 
 export const AuthPage = () => {
+    const {loading, request, error, clearError} = useHttp();
     const [form, setForm] = useState({
         email: '',
         password: ''
     });
+    const message = useMessage();
 
-    const  changeHandler = event => {
-        setForm({...form, [event.target.name]: event.target.value})
+    useEffect(() => {
+        message(error);
+        clearError();
+    }, [error, message, clearError]);
+
+    const changeHandler = event => {
+        setForm({ ...form, [event.target.id]: event.target.value })
+    }
+
+    const registerHandler = async () => {
+        try {
+            const data = await request('/api/auth/register', 'POST', {...form});
+            console.log(data.message);
+        } catch (e) {}
+    }
+
+    const loginHandler = async () => {
+        try {
+            const data = await request('/api/auth/login', 'POST', {...form});
+            console.log(data.message);
+        } catch (e) {}
     }
 
     return (
@@ -37,8 +60,21 @@ export const AuthPage = () => {
                         </div>
                     </div>
                     <div className="card-action">
-                        <button className="btn yellow darken-4" style={{marginRight: 10}}>Log In</button>
-                        <button className="btn grey darken-4">Sign In</button>
+                        <button
+                            className="btn yellow darken-4"
+                            onClick={loginHandler}
+                            style={{marginRight: 10}}
+                            disabled={loading}
+                        >
+                            Log In
+                        </button>
+                        <button
+                            className="btn grey darken-4"
+                            onClick={registerHandler}
+                            disabled={loading}
+                        >
+                            Sign In
+                        </button>
                     </div>
                 </div>
             </div>
