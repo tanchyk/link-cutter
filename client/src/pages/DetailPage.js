@@ -17,7 +17,8 @@ export const DetailPage = () => {
                 authorization: `Bearer ${token}`
             });
             setLink(fetched);
-        } catch (e) {}
+        } catch (e) {
+        }
 
     }, [token, linkId, request]);
 
@@ -25,11 +26,11 @@ export const DetailPage = () => {
         getLink();
     }, [getLink]);
 
-    if(loading) {
-        return <Loader />;
+    if (loading) {
+        return <Loader/>;
     }
 
-    return(
+    return (
         <>
             {!loading && link && <LinkCard link={link}/>}
         </>

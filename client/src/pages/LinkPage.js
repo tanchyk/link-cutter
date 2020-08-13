@@ -10,25 +10,26 @@ export const LinksPage = () => {
     const {token} = useContext(AuthContext);
 
     const fetchLinks = useCallback(async () => {
-       try {
-           const fetched = await request('/api/link', 'GET', null, {
-               authorization: `Bearer ${token}`
-           });
-           setLinks(fetched);
-       } catch (e) {}
+        try {
+            const fetched = await request('/api/link', 'GET', null, {
+                authorization: `Bearer ${token}`
+            });
+            setLinks(fetched);
+        } catch (e) {
+        }
     }, [token, request]);
 
     useEffect(() => {
         fetchLinks();
     }, [fetchLinks]);
 
-    if(loading) {
-        return <Loader />;
+    if (loading) {
+        return <Loader/>;
     }
 
-    return(
-      <div>
-          {!loading && <LinksList links={links}/>}
-      </div>
+    return (
+        <div>
+            {!loading && <LinksList links={links}/>}
+        </div>
     );
 }
